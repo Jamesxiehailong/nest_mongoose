@@ -1,5 +1,7 @@
 import * as mongoose from 'mongoose';
-
+/**
+ * 链接池
+ */
 export const databaseProviders = [
   {
     provide: 'DbConnectionToken',

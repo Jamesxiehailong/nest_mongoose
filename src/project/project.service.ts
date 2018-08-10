@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
 import { Project } from './interfaces/project.interface';
-import { CreateProjectDto } from './dto/create-project.dto';
+// import { CreateProjectDto } from './dto/create-project.dto';
 
 @Injectable()
 export class ProjectsService {
@@ -18,4 +18,15 @@ export class ProjectsService {
   async findAll(params): Promise<Project[]> {
     return await this.ProjectModel.find(params).exec();
   }
+
+  async modifyDataById(condition,updates):Promise<Project[]>{
+    return await this.ProjectModel.update(condition,updates).exec();
+  }
+
+  async deleteDataById(condition):Promise<Project[]>{
+    //还有Score表没有。
+    
+    return await this.ProjectModel.remove(condition).exec();
+  }
+
 }
