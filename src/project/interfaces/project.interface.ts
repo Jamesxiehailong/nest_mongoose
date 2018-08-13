@@ -7,3 +7,4 @@ export interface Project extends Document {
    lastTime: Date,
    projectStatus:Boolean
 }
+

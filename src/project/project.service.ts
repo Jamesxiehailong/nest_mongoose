@@ -16,10 +16,10 @@ export class ProjectsService {
   }
 
   async findAll(params): Promise<Project[]> {
-    return await this.ProjectModel.find(params).exec();
+    return await this.ProjectModel.find(params).populate('scores').exec();
   }
 
-  async modifyDataById(condition,updates):Promise<Project[]>{
+  async modifyDataById(condition,updates):Promise<Project[]>{ 
     return await this.ProjectModel.update(condition,updates).exec();
   }
 

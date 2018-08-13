@@ -4,4 +4,5 @@ export class CreateScoreDto {
   readonly voterName: String;
   readonly score:Number;
   readonly personName:String;
+  readonly projectName:String
 }

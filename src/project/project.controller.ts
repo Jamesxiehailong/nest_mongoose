@@ -17,12 +17,12 @@ export class ProjectsController {
   async create(@Body() body ,createProjectDto: CreateProjectDto, @Response() res) {
     const newParams = Object.assign(body,{
       createdTime:new Date(),
+      lastTime:new Date(),
       projectStatus:true
     })
     let ProjectPromise = this.ProjectsService.create(newParams);
     ProjectPromise
     .then( project=>{
-      console.log(`成功${project}`)
       const resData = {
         status:'success',
         data:project
@@ -45,11 +45,10 @@ export class ProjectsController {
       $or : [ //多条件，数组
         {projectName : {$regex : query.projectName || ''}},
         {personName: {$regex : query.personName || ''}},
-        {createdTime:query.createdTime === undefined ? '': dateRes(query.createdTime)}
+        {createdTime:query.createdTime === undefined ? '' : dateRes(query.createdTime)}
     ],
     });
     findAll.then(Project=>{
-      console.log(Project)
       res.status(HttpStatus.OK).json(Project);
     }).catch( err=>{
       console.log(err)
@@ -68,14 +67,26 @@ export class ProjectsController {
     const condition = {
       _id:body.projectId
     };
-    const updates = {
-      projectName:body.projectName,
-      projectStatus:body.projectStatus
-    };
-    let ProjectPromise = this.ProjectsService.modifyDataById(condition,updates);
+    let ProjectPromise
+    if(body.projectStatus === undefined){
+      const updates = {
+        createdTime:new Date(),
+        projectName: body.projectName,     
+      }
+      ProjectPromise = this.ProjectsService.modifyDataById(condition,updates);
+    } else{
+      const updates = {
+        createdTime:new Date(),
+        projectName: body.projectName, 
+        projectStatus:body.projectStatus
+      }
+      updates.projectName = body.projectName
+      updates.projectStatus = body.projectStatus
+      ProjectPromise = this.ProjectsService.modifyDataById(condition,updates);
+    }
+   
     ProjectPromise
     .then( project=>{
-      console.log(`成功${project}`)
       const resData = {
         status:'success',
         data:project
@@ -94,25 +105,38 @@ export class ProjectsController {
    * @param res 
    */
   @Delete('deleteDataById')
-  async deleteDataById(@Body() body, @Response() res){
+  async deleteDataById(@Query() query, @Response() res){
     const condition = {
-      _id:body.projectId
+      _id:query.projectId
     }
-    console.log(condition)
-    let ProjectPromise = this.ProjectsService.deleteDataById(condition);
-    ProjectPromise
-    .then( project=>{
-      console.log(`成功${project}`)
-      const resData = {
-        status:'success',
-        data:project
+    if(query.projectId === undefined){
+      const rejectData = {
+        status:'flase',
+        data:{
+          mes:'请输入正确的ID'
+        }
       }
-      res.status(HttpStatus.OK).json(resData);//返回新创建的doc
-    })
-    .catch( err=>{
-      console.log(err)
-      res.status(HttpStatus.OK).json(err);//返回错误
-    });
+      res.status(200).json(rejectData)
+    }else{
+      let ProjectPromise = this.ProjectsService.deleteDataById(condition);
+      ProjectPromise
+      .then( project=>{
+        const resData = {
+          status:'success',
+          data:project
+        }
+        res.status(HttpStatus.OK).json(resData);//返回新创建的doc
+      })
+      .catch( err=>{
+        const resData = {
+          status :'error',
+          data:err
+        }
+        console.log('error')
+        console.log(resData)
+        res.status(HttpStatus.OK).json(resData);//返回错误
+      });
+    }
   }
 }
 

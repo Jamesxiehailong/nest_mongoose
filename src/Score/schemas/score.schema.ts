@@ -5,5 +5,6 @@ export const ScoreSchema = new mongoose.Schema({
     createdTime: Date,
     voterName: String,
     score:Number,
-    personName:String
+    personName:String,
+    projectName:String
 });

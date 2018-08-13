@@ -6,4 +6,5 @@ export interface Score extends Document {
   readonly voterName: String;
   readonly score:Number
   readonly personName:String
+  readonly projectName:String
 }
