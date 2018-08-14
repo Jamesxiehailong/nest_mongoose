@@ -1,3 +1,10 @@
+/*
+ * @Author: 谢海龙 / Jamesxiehailong
+ * @Date: 2018-08-14 11:53:12
+ * @Last Modified by:   谢海龙 / Jamesxiehailong
+ * @Last Modified time: 2018-08-14 11:53:12
+ */
+
 import { Model } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
 import { Score } from './interfaces/Score.interface';

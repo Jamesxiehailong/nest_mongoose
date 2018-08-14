@@ -1,3 +1,10 @@
+/*
+ * @Author: 谢海龙 / Jamesxiehailong
+ * @Date: 2018-08-14 11:50:34
+ * @Last Modified by: 谢海龙 / Jamesxiehailong
+ * @Last Modified time: 2018-08-14 11:51:22
+ */
+
 import { Controller, Get, Post, Body, Response,HttpStatus,Query,Delete} from '@nestjs/common';
 // import { CreateScoreDto } from './dto/create-score.dto';
 import { ScoresService } from './score.service';
@@ -44,7 +51,7 @@ export class ScoresController {
     let findAll = this.ScoresService.findAll({
       $or : [ //多条件，数组
         {projectName : {$regex : query.projectName || ''}},
-        {personName: {$regex : query.personName || ''}},
+        {personName: {$in : query.personName || ''}},
         {createdTime:query.createdTime === undefined ? '': dateRes(query.createdTime)}
     ],
   });
