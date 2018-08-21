@@ -1,3 +1,10 @@
+/*
+ * @Author: hanlike 
+ * @Date: 2018-08-15 10:57:07 
+ * @Last Modified by:   hanlike 
+ * @Last Modified time: 2018-08-15 10:57:07 
+ */
+
 import * as mongoose from 'mongoose';
 /**
  * 链接池
